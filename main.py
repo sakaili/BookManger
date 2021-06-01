@@ -2,6 +2,11 @@ import pymysql
 
 
 def GetCursor():
+    """
+    建立与MySQL数据库连接
+    connect内的参数依自己情况填写
+    :return: db cursor
+    """
     db = pymysql.connect(host='localhost', port=3306, user='root', password='515310szc', db="library",
                          charset="utf8")
     cursor = db.cursor()
@@ -9,6 +14,9 @@ def GetCursor():
 
 
 class Book(object):
+    """
+    定义图书类
+    """
     def __init__(self, number, name, author, status, amount):
         self.number = number
         self.name = name
@@ -18,6 +26,9 @@ class Book(object):
 
 
 class IdChoice(object):
+    """
+    选择身份类
+    """
     def __init__(self):
         self.Choice()
 
@@ -38,6 +49,10 @@ class IdChoice(object):
             return 0
 
     def ManagerIdentity(self):
+        """
+        管理员身份验证，与数据库通讯验证是否输入正确。
+        :return:
+        """
         db, cursor = GetCursor()
         account = input('请输入您的帐号')
         password = input('请输入您的密码')
@@ -50,12 +65,12 @@ class IdChoice(object):
         if account == results[0] and password == results[1]:
             db.close()
             Menu.AdminMenu()
-        """
-        管理员身份验证
-        :return:
-        """
 
     def StudentIdentity(self):
+        """
+        验证学生身份
+        :return:
+        """
         db, cursor = GetCursor()
         account = input('请输入您的帐号')
         password = input('请输入您的密码')
@@ -74,6 +89,9 @@ class IdChoice(object):
 
 
 class Menu(object):
+    """
+    菜单类，选择功能
+    """
     @staticmethod
     def AdminMenu():
         print('\n欢迎登录图书馆管理员系统!')
@@ -107,6 +125,10 @@ class Menu(object):
 
     @staticmethod
     def StudentMenu():
+        """
+        学生菜单
+        :return:
+        """
         print('\n欢迎登录图书馆系统!')
         print('[1]借书')
         print('[2]还书')
@@ -123,6 +145,9 @@ class Menu(object):
 
 
 class Manage(object):
+    """
+    功能类，实现管理员和学生相应的功能
+    """
     @staticmethod
     def BorrowBook():
         db, cursor = GetCursor()
